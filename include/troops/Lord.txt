@@ -1,0 +1,11 @@
+#include "Troop.hpp"
+
+class Lord : public Troop
+{
+public:
+    Lord();
+    ~Lord();
+    virtual void ability() override;
+
+private:
+};

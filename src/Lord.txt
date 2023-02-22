@@ -1,0 +1,22 @@
+#include "../include/troops/Lord.hpp"
+
+#define HEALTH 1000
+#define DAMAGE 50
+#define DEFENSE 500
+#define AGILITY 1
+#define COST 0
+#define MOUNTED false
+#define RANGED false
+
+Lord::Lord()
+{
+    setHealth(HEALTH);
+    setDamage(DAMAGE);
+    setDefense(DEFENSE);
+    setAgility(AGILITY);
+    setCost(COST);
+    setMounted(MOUNTED);
+    setRanged(RANGED);
+}
+Lord::~Lord(){}
+// virtual void Troop::ability() override {}
