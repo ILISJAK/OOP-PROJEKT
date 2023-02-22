@@ -3,22 +3,23 @@
 #include "../troops/Troop.hpp"
 #include "../troops/Lord.hpp"
 #include "Villager.hpp"
+#include "include\structures\Market.hpp"
 
 class Town final
 {
 public:
     Town();
     Town(char team);
-    Town(char team, int housing, double gold, int rations, int wood, int stone);
+    Town(char team, int housing, double gold, int rations, int wood, int stone, Troop *lord, Structure *market);
     ~Town();
 
     // key metode
     void const info();
     void const listTroops();
     void const listStructures();
+    bool Town::sufficientRations();
     void buildHousing();
     void trainVillager();
-    Structure *construct();
     void trainTroop(std::string troopName);
     void raid(Town *town);
     void attackLord(Town *town);
@@ -44,6 +45,7 @@ private:
     std::vector<Troop *> army;           // vojska grada pohranjena
     std::vector<Structure *> structures; // sve građevine grada pohranjene
     Troop *lord;
+    Structure *market;
     double gold;
     int rations;
     int wood;
@@ -52,5 +54,5 @@ private:
     static double goldEarned;
     static int troopsProduced;
     static int structuresConstructed;
-    static int villagersTrained;
+    int villagersTrained = 0;
 };

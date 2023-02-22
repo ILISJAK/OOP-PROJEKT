@@ -12,36 +12,41 @@
 #define WOOD 200
 #define STONE 200
 
-Town::Town() : Town::Town(TEAM, HOUSING, GOLD, RATIONS, WOOD, STONE) {}
-Town::Town(char team) : Town::Town(team, HOUSING, GOLD, RATIONS, WOOD, STONE) {}
-Town::Town(char team, int housing, double gold, int rations, int wood, int stone)
+Town::Town() : Town::Town(TEAM, HOUSING, GOLD, RATIONS, WOOD, STONE, new Lord(), new Market(this)) {}
+
+Town::Town(char team) : Town::Town(team, HOUSING, GOLD, RATIONS, WOOD, STONE, new Lord(), new Market(this)) {}
+
+Town::Town(char team, int housing, double gold, int rations, int wood, int stone, Troop *lord, Structure *market)
 {
+    std::cout << "A new town " << team << " has been created!" << std::endl;
     setTeam(team);
     setHousing(housing);
     setGold(gold);
     setRations(rations);
     setWood(wood);
     setStone(stone);
+    this->lord = lord;
+    this->market = market;
 }
 Town::~Town()
 {
     delete this->lord;
+    army.clear();
+    structures.clear();
     std::cout << "Town " << getTeam() << " destroyed." << std::endl;
     // std::cout << "TEST6" << std::endl;
 }
 
-Troop *lord = new Lord();
 double Town::goldEarned = 0;
 int Town::troopsProduced = 0;
 int Town::structuresConstructed = 0;
-int Town::villagersTrained = 0;
 
 // key metode
 void const Town::info()
 {
     std::cout << "TEAM " << team << " TOWN: " << std::endl;
     std::cout << "Population: " << villagersTrained << "/" << housing << std::endl;
-    std::cout << "Number of troops: " << army.size() << std::endl;
+    std::cout << "Number of army: " << army.size() << std::endl;
     std::cout << "Structures built: " << structuresConstructed << std::endl;
     std::cout << "Gold: " << gold << std::endl;
     std::cout << "Stone: " << stone << std::endl;
@@ -78,6 +83,11 @@ void Town::trainVillager()
 {
     this->rations -= 10;
     villagersTrained++;
+}
+
+bool Town::sufficientRations()
+{
+    return (rations >= villagersTrained);
 }
 
 // metode vezane uz troopove
@@ -166,31 +176,50 @@ void Town::raid(Town *town) // eraseat iz vektora pa obrisat
 
 void Town::attackLord(Town *town)
 {
+    if (town == nullptr)
+    {
+        std::cout << "Town doesnt exist." << std::endl;
+        return;
+    }
+    if (town->lord == nullptr)
+    {
+        std::cout << "Lord doesnt exist." << std::endl;
+        delete town;
+        town = nullptr;
+        return;
+    }
     std::cout << "Town " << getTeam() << " has attacked the town " << town->getTeam() << " Lord!" << std::endl;
     while (1)
     {
-        std::cout << "TEST1" << std::endl;
+        // std::cout << "TEST1" << std::endl;
         Troop *attacker = this->army.front();
         Troop *target = town->lord;
-        std::cout << "TEST2" << std::endl;
+        // std::cout << "TEST2" << std::endl;
         if (!this->army.empty())
         {
-            std::cout << "TEST3" << std::endl;
+            // std::cout << "TEST3" << std::endl;
             if (town->army.empty())
             {
-                std::cout << "TEST4" << std::endl;
+                // std::cout << "TEST4" << std::endl;
                 attacker->attack(target);
-                std::cout << "TEST5" << std::endl;
+                // std::cout << "TEST5" << std::endl;
                 if (target->getHealth() <= 0)
                 {
-                    std::cout << "King" << std::endl;
+                    // std::cout << "King" << std::endl;
+                    this->gold += town->gold;
+                    this->rations += town->rations;
+                    this->stone += town->stone;
+                    this->wood += town->wood;
+                    this->villagersTrained += town->villagersTrained;
+                    std::cout << "All of town " << town->getTeam() << "'s resources have been plundered! " << std::endl;
+                    std::cout << town->villagersTrained << " citizen(s) have assimilated to town " << getTeam() << "." << std::endl;
                     delete town;
                     std::cout << "Town " << getTeam() << " remaining troops: " << this->army.size() << std::endl;
                     return;
                 }
                 if (attacker->getHealth() <= 0)
                 {
-                    std::cout << "Troop" << std::endl;
+                    // std::cout << "Troop" << std::endl;
                     this->army.erase(this->army.begin());
                     delete attacker;
                 }

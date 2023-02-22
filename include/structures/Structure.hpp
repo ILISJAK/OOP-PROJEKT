@@ -1,18 +1,29 @@
-#include "../misc/Villager.hpp"
+#ifndef STRUCTURE
+#define STRUCTURE
+
+#include "include\misc\Town.hpp"
 #include "../troops/Troop.hpp"
-#include <vector>
 
 class Structure
 {
 public:
     Structure();
-    virtual ~Structure() = 0;
-    void construct();
+    Structure(Town &town);
+    virtual ~Structure();
+    // key metode
+    virtual void work() = 0;
     virtual void info() = 0;
 
+    // getteri
+    int getCost();
+
+    // setteri
+    void setCost(int cost);
+
 protected:
-    double health;
     int cost;
+    Town &parentTown;
     Troop *guard;
-    Villager *worker;
 };
+
+#endif

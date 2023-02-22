@@ -17,7 +17,7 @@ Lord::Lord() : Troop::Troop(IDENTIFIER, MAXHEALTH, DAMAGE, DEFENSE, AGILITY, COS
 Lord::Lord(std::string identifier, double maxHealth, double damage, double defense, double agility, int cost, bool mounted, bool ranged) : Troop::Troop(identifier, health, damage, defense, agility, cost, mounted, ranged) {}
 Lord::~Lord()
 {
-    std::cout << "The lord has been defeated" << std::endl;
+    std::cout << "The lord has been defeated." << std::endl;
 }
 void Lord::ability()
 {

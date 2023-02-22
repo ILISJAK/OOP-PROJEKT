@@ -100,9 +100,9 @@ void Troop::setCost(int cost)
 }
 bool Troop::setMounted(bool mounted)
 {
-    this->mounted = health;
+    this->mounted = mounted;
 }
 bool Troop::setRanged(bool ranged)
 {
-    this->health = health;
+    this->ranged = ranged;
 }
