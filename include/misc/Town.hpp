@@ -1,9 +1,12 @@
+#ifndef TOWN
+#define TOWN
+
 #include <vector>
 #include "../structures/Structure.hpp"
 #include "../troops/Troop.hpp"
 #include "../troops/Lord.hpp"
 #include "Villager.hpp"
-#include "include\structures\Market.hpp"
+#include "include/structures/Market.hpp"
 
 class Town final
 {
@@ -56,3 +59,5 @@ private:
     static int structuresConstructed;
     int villagersTrained = 0;
 };
+
+#endif

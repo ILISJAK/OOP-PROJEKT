@@ -1,4 +1,4 @@
-#include <include\structures\Structure.hpp>
+#include <include/structures/Structure.hpp>
 
 #define COST 0
 

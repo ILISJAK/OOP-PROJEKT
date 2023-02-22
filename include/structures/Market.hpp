@@ -1,7 +1,7 @@
-#ifndef STRUCTURE
-#define STRUCTURE
+#ifndef STRUCTURE_BASE
+#define STRUCTURE_BASE
 
-#include "include\misc\Town.hpp"
+#include "include/misc/Town.hpp"
 #include "../troops/Troop.hpp"
 #include "Structure.hpp"
 
