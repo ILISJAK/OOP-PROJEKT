@@ -1,14 +1,14 @@
 #ifndef STRUCTURE
 #define STRUCTURE
 
-#include "include/misc/Town.hpp"
+#include "../misc/Town.hpp"
 #include "../troops/Troop.hpp"
 
 class Structure
 {
 public:
     Structure();
-    Structure(Town &town);
+    Structure(Town *town);
     virtual ~Structure();
     // key metode
     virtual void work() = 0;
@@ -22,7 +22,7 @@ public:
 
 protected:
     int cost;
-    Town &parentTown;
+    Town *parentTown;
     Troop *guard;
 };
 

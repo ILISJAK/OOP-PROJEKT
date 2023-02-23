@@ -6,7 +6,7 @@
 #include "../troops/Troop.hpp"
 #include "../troops/Lord.hpp"
 #include "Villager.hpp"
-#include "include/structures/Market.hpp"
+#include "../structures/Market.hpp"
 
 class Town final
 {
