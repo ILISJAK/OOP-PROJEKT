@@ -4,6 +4,8 @@
 #include "../misc/Town.hpp"
 #include "../troops/Troop.hpp"
 
+class Town; // forward deklaracija
+
 class Structure
 {
 public:

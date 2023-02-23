@@ -1,9 +1,9 @@
-#ifndef STRUCTURE_BASE
-#define STRUCTURE_BASE
+#ifndef MARKET
+#define MARKET
 
-#include "../misc/Town.hpp"
-#include "../troops/Troop.hpp"
 #include "Structure.hpp"
+
+// class Town; // forward deklaracija
 
 class Market : public Structure
 {
@@ -30,7 +30,7 @@ public:
     int setMaxStone(int);
 
 protected:
-    Town *parentTown;
+    // Town *parentTown;
     double gold;
     int rations;
     int wood;

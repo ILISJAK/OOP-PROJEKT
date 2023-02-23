@@ -5,8 +5,10 @@
 #include "../structures/Structure.hpp"
 #include "../troops/Troop.hpp"
 #include "../troops/Lord.hpp"
-#include "Villager.hpp"
 #include "../structures/Market.hpp"
+
+class Market;    // forward deklaracija
+class Structure; // forward deklaracija
 
 class Town final
 {
@@ -20,7 +22,7 @@ public:
     void const info();
     void const listTroops();
     void const listStructures();
-    bool Town::sufficientRations();
+    bool sufficientRations();
     void buildHousing();
     void trainVillager();
     void trainTroop(std::string troopName);
