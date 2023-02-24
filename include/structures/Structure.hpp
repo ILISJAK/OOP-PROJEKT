@@ -1,7 +1,6 @@
 #ifndef STRUCTURE
 #define STRUCTURE
 
-#include "../misc/Town.hpp"
 #include "../troops/Troop.hpp"
 
 class Town; // forward deklaracija

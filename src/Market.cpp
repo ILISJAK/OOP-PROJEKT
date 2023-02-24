@@ -1,4 +1,5 @@
 #include "../include/structures/Market.hpp"
+#include "../include/misc/Town.hpp"
 #include <iostream>
 
 #define MAXGOLD 10000

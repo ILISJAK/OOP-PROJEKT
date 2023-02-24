@@ -1,4 +1,5 @@
 #include "../include/structures/Structure.hpp"
+#include "../include/misc/Town.hpp"
 
 #define COST 0
 
@@ -14,7 +15,7 @@ int Structure::getCost()
 {
     return cost;
 }
-Town* Structure::getParentTown()
+Town *Structure::getParentTown()
 {
     return parentTown;
 }
