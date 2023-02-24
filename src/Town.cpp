@@ -5,6 +5,7 @@
 #include "../include/troops/Knight.hpp"
 #include "../include/troops/Maceman.hpp"
 #include "../include/troops/Pikeman.hpp"
+#include "../include/structures/Market.hpp"
 
 #define TEAM 'A'
 #define HOUSING 10

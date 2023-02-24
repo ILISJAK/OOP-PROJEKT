@@ -25,6 +25,7 @@ public:
     void setGoldCost(int);
     void setWoodCost(int);
     void setStoneCost(int);
+    void setParentTown(Town *parentTown);
 
 protected:
     int goldCost;

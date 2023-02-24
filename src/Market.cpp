@@ -8,11 +8,12 @@
 #define MAXSTONE 1000
 
 Market::Market() : Structure::Structure(nullptr) {}
-Market::Market(Town *town) : Structure::Structure(parentTown)
+Market::Market(Town *town) : Structure::Structure(town)
 {
     if (town == nullptr)
     {
-        std::cout << "no town" << std::endl;
+        std::cout << "No existing town provided for constructor." << std::endl;
+        delete this;
         return;
     }
     setMaxGold(MAXGOLD);
