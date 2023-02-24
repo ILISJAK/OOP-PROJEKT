@@ -1,4 +1,5 @@
 #include <iostream>
+#include <algorithm>
 #include "../include/misc/Town.hpp"
 #include "../include/troops/Archer.hpp"
 #include "../include/troops/Knight.hpp"
@@ -12,11 +13,11 @@
 #define WOOD 200
 #define STONE 200
 
-Town::Town() : Town::Town(TEAM, HOUSING, GOLD, RATIONS, WOOD, STONE, new Lord(), new Market(this)) {}
+Town::Town() : Town::Town(TEAM, HOUSING, GOLD, RATIONS, WOOD, STONE, new Lord()) {}
 
-Town::Town(char team) : Town::Town(team, HOUSING, GOLD, RATIONS, WOOD, STONE, new Lord(), new Market(this)) {}
+Town::Town(char team) : Town::Town(team, HOUSING, GOLD, RATIONS, WOOD, STONE, new Lord()) {}
 
-Town::Town(char team, int housing, double gold, int rations, int wood, int stone, Troop *lord, Structure *market)
+Town::Town(char team, int housing, double gold, int rations, int wood, int stone, Troop *lord)
 {
     std::cout << "A new town " << team << " has been created!" << std::endl;
     setTeam(team);
@@ -26,12 +27,19 @@ Town::Town(char team, int housing, double gold, int rations, int wood, int stone
     setWood(wood);
     setStone(stone);
     this->lord = lord;
-    this->market = market;
 }
 Town::~Town()
 {
-    delete this->lord;
+    delete lord;
+    for (auto &troop : army)
+    {
+        delete troop;
+    }
     army.clear();
+    for (auto &structure : structures)
+    {
+        delete structure;
+    }
     structures.clear();
     std::cout << "Town " << getTeam() << " destroyed." << std::endl;
     // std::cout << "TEST6" << std::endl;
@@ -56,17 +64,21 @@ void const Town::info()
     std::cout << "Total troops produced: " << troopsProduced << std::endl;
 }
 
-// metode vezane uz gradevine i ekonomiju
+// metode vezane uz strukture i ekonomiju
 
-void const Town::listStructures() // treba smisliti nacin za identifikaciju troopova gradevina
+void const Town::listStructures()
 {
     for (auto &it : structures)
     {
         if (it != structures.back())
-            std::cout << it << ", ";
+        {
+            it->info();
+            std::cout << ", ";
+        }
         else
         {
-            std::cout << it << std::endl;
+            it->info();
+            std::cout << std::endl;
         }
     }
 }
@@ -85,12 +97,40 @@ void Town::trainVillager()
     villagersTrained++;
 }
 
+void Town::buildStructure(Structure *structure)
+{
+    if (structure && gold >= structure->getGoldCost() && wood >= structure->getWoodCost() && stone >= structure->getStoneCost())
+    {
+        gold -= structure->getGoldCost();
+        wood -= structure->getWoodCost();
+        stone -= structure->getStoneCost();
+        structures.push_back(structure);
+        std::cout << "A new structure has been built in " << team << " town." << std::endl;
+    }
+}
+
+void Town::destroyStructure(Structure *structure)
+{
+    if (structure)
+    {
+        auto it = std::find(structures.begin(), structures.end(), structure);
+        if (it != structures.end())
+        {
+            gold += (*it)->getGoldCost() / 2;
+            wood += (*it)->getWoodCost() / 2;
+            stone += (*it)->getStoneCost() / 2;
+            structures.erase(it);
+            std::cout << "A structure has been destroyed in " << team << " town." << std::endl;
+        }
+    }
+}
+
 bool Town::sufficientRations()
 {
     return (rations >= villagersTrained);
 }
 
-// metode vezane uz troopove
+// metode vezane uz vojsku
 
 void const Town::listTroops() // treba smisliti nacin za identifikaciju troopova - smisljeno
 {
@@ -107,27 +147,12 @@ void const Town::listTroops() // treba smisliti nacin za identifikaciju troopova
     }
 }
 
-void Town::trainTroop(std::string troopName)
+void Town::trainTroop(Troop *troop)
 {
-    if (troopName == "archer")
+    if (troop && gold >= troop->getCost())
     {
-        army.push_back(new Archer());
-    }
-    else if (troopName == "knight")
-    {
-        army.push_back(new Knight());
-    }
-    else if (troopName == "maceman")
-    {
-        army.push_back(new Maceman());
-    }
-    else if (troopName == "pikeman")
-    {
-        army.push_back(new Pikeman());
-    }
-    else
-    {
-        std::cout << "No such troop." << std::endl;
+        gold -= troop->getCost();
+        army.push_back(troop);
     }
 }
 

@@ -16,7 +16,7 @@ class Town final
 public:
     Town();
     Town(char team);
-    Town(char team, int housing, double gold, int rations, int wood, int stone, Troop *lord, Structure *market);
+    Town(char team, int housing, double gold, int rations, int wood, int stone, Troop *lord);
     ~Town();
 
     // key metode
@@ -24,9 +24,11 @@ public:
     void const listTroops();
     void const listStructures();
     bool sufficientRations();
+    void destroyStructure(Structure *structure);
+    void buildStructure(Structure *structure);
     void buildHousing();
     void trainVillager();
-    void trainTroop(std::string troopName);
+    void trainTroop(Troop *troop);
     void raid(Town *town);
     void attackLord(Town *town);
 
@@ -51,7 +53,6 @@ private:
     std::vector<Troop *> army;           // vojska grada pohranjena
     std::vector<Structure *> structures; // sve građevine grada pohranjene
     Troop *lord;
-    Structure *market;
     double gold;
     int rations;
     int wood;

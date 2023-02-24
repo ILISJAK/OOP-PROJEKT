@@ -16,14 +16,20 @@ public:
     virtual void info() = 0;
 
     // getteri
-    int getCost();
+    int getGoldCost();
+    int getWoodCost();
+    int getStoneCost();
     Town *getParentTown();
 
     // setteri
-    void setCost(int cost);
+    void setGoldCost(int);
+    void setWoodCost(int);
+    void setStoneCost(int);
 
 protected:
-    int cost;
+    int goldCost;
+    int woodCost;
+    int stoneCost;
     Town *parentTown;
     Troop *guard;
 };

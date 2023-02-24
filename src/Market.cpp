@@ -7,11 +7,13 @@
 #define MAXWOOD 1000
 #define MAXSTONE 1000
 
+Market::Market() : Structure::Structure(nullptr) {}
 Market::Market(Town *town) : Structure::Structure(parentTown)
 {
-    if (parentTown == nullptr)
+    if (town == nullptr)
     {
-        delete this;
+        std::cout << "no town" << std::endl;
+        return;
     }
     setMaxGold(MAXGOLD);
     gold = maxGold;

@@ -68,6 +68,10 @@ double Troop::getAgility()
 {
     return agility;
 }
+int Troop::getCost()
+{
+    return cost;
+}
 bool Troop::getMounted()
 {
     return mounted;

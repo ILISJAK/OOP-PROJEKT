@@ -21,6 +21,7 @@ public:
     double getDamage();
     double getDefense();
     double getAgility();
+    int getCost();
     bool getMounted();
     bool getRanged();
     // setteri

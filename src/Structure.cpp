@@ -1,27 +1,29 @@
 #include "../include/structures/Structure.hpp"
 #include "../include/misc/Town.hpp"
 
-#define COST 0
+#define GOLDCOST 0
+#define WOODCOST 0
+#define STONECOST 0
 
 Structure::Structure(Town *town) : parentTown(town)
 {
-    setCost(COST);
+    setGoldCost(GOLDCOST);
+    setWoodCost(WOODCOST);
+    setStoneCost(STONECOST);
 }
 Structure::~Structure() {}
+
 // key metode
 
 // getteri
-int Structure::getCost()
-{
-    return cost;
-}
-Town *Structure::getParentTown()
-{
-    return parentTown;
-}
+
+int Structure::getGoldCost() { return goldCost; }
+int Structure::getWoodCost() { return woodCost; }
+int Structure::getStoneCost() { return stoneCost; }
+Town *Structure::getParentTown() { return parentTown; }
 
 // setteri
-void Structure::setCost(int cost)
-{
-    this->cost = cost;
-}
+
+void Structure::setGoldCost(int goldCost) { this->goldCost = goldCost; }
+void Structure::setWoodCost(int woodCost) { this->woodCost = woodCost; }
+void Structure::setStoneCost(int stoneCost) { this->stoneCost = stoneCost; }
