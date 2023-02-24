@@ -18,6 +18,7 @@ public:
 
     // getteri
     int getCost();
+    Town *getParentTown();
 
     // setteri
     void setCost(int cost);

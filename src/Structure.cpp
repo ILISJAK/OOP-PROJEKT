@@ -14,6 +14,10 @@ int Structure::getCost()
 {
     return cost;
 }
+Town* Structure::getParentTown()
+{
+    return parentTown;
+}
 
 // setteri
 void Structure::setCost(int cost)

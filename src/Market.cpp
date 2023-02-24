@@ -6,7 +6,7 @@
 #define MAXWOOD 1000
 #define MAXSTONE 1000
 
-Market::Market(Town *town) : parentTown(town)
+Market::Market(Town *town) : Structure::Structure(parentTown)
 {
     setMaxGold(MAXGOLD);
     gold = maxGold;
