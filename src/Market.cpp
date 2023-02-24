@@ -9,6 +9,10 @@
 
 Market::Market(Town *town) : Structure::Structure(parentTown)
 {
+    if (parentTown == nullptr)
+    {
+        delete this;
+    }
     setMaxGold(MAXGOLD);
     gold = maxGold;
     setMaxRations(MAXRATIONS);

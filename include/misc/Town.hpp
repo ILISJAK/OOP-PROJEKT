@@ -2,6 +2,7 @@
 #define TOWN
 
 #include <vector>
+#include <memory>
 #include "../structures/Structure.hpp"
 #include "../troops/Troop.hpp"
 #include "../troops/Lord.hpp"
