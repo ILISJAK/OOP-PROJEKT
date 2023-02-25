@@ -1,2 +1,8 @@
     TOWN
 - mora imati 
+
+za sutra:
+-exceptioni na svim setterima
+-implementirati market bridge metode u town klasi
+-static void wait() metoda
+-mozda doraditi attack metodu da statovi imaju svrhu

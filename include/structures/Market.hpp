@@ -8,14 +8,13 @@
 class Market : public Structure
 {
 public:
-    Market();
     Market(Town *town);
     ~Market();
     // key metode
     virtual void work() override;
     virtual void info() override;
-    void buy(std::string what, int amount);
-    void sell(std::string what, int amount);
+    bool buy(std::string what, int amount);
+    bool sell(std::string what, int amount);
 
     // getteri
     double getMaxGold();
@@ -30,7 +29,6 @@ public:
     int setMaxStone(int);
 
 protected:
-    // Town *parentTown;
     double gold;
     int rations;
     int wood;

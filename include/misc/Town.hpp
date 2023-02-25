@@ -6,7 +6,6 @@
 #include "../structures/Structure.hpp"
 #include "../troops/Troop.hpp"
 #include "../troops/Lord.hpp"
-#include "../structures/Market.hpp"
 
 class Market;    // forward deklaracija
 class Structure; // forward deklaracija
@@ -23,10 +22,11 @@ public:
     void const info();
     void const listTroops();
     void const listStructures();
-    bool sufficientRations();
+    void buyFromMarket(std::string what, int amount);
     void destroyStructure(Structure *structure);
     void buildStructure(Structure *structure);
     void buildHousing();
+    bool sufficientRations();
     void trainVillager();
     void trainTroop(Troop *troop);
     void raid(Town *town);

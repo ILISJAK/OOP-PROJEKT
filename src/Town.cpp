@@ -69,17 +69,19 @@ void const Town::info()
 
 void const Town::listStructures()
 {
+    std::cout << "Town " << team << " structures: " << structures.size() << std::endl;
+    int i = 1;
     for (auto &it : structures)
     {
         if (it != structures.back())
         {
-            it->info();
-            std::cout << ", ";
+            std::cout << i << ". " << it->getType() << ", ";
+            i++;
         }
         else
         {
-            it->info();
-            std::cout << std::endl;
+            std::cout << i << ". " << it->getType() << std::endl;
+            ;
         }
     }
 }
@@ -107,6 +109,7 @@ void Town::buildStructure(Structure *structure)
         stone -= structure->getStoneCost();
         structures.push_back(structure);
         std::cout << "A new structure has been built in " << team << " town." << std::endl;
+        structuresConstructed++;
     }
 }
 
@@ -125,7 +128,29 @@ void Town::destroyStructure(Structure *structure)
         }
     }
 }
-
+void Town::buyFromMarket(std::string what, int amount)
+{
+    for (auto it = structures.begin(); it != structures.end(); ++it)
+    {
+        if ((*it)->getType() == "Market")
+        {
+            Market *market = dynamic_cast<Market *>(*it);
+            if (market)
+            {
+                if (!market->buy(what, amount)) // ako pronadeni market nema dovoljno resursa, trazimo sljedeci
+                {
+                    continue;
+                }
+                else
+                {
+                    market->buy(what, amount);
+                    return;
+                }
+            }
+        }
+    }
+    std::cout << "Market not found in town." << std::endl;
+}
 bool Town::sufficientRations()
 {
     return (rations >= villagersTrained);
@@ -135,7 +160,7 @@ bool Town::sufficientRations()
 
 void const Town::listTroops() // treba smisliti nacin za identifikaciju troopova - smisljeno
 {
-    std::cout << "TOWN " << team << " ARMY SIZE: " << army.size() << std::endl;
+    std::cout << "Town " << team << " army size: " << army.size() << std::endl;
     for (auto &it : army)
     {
         if (it != army.back())
