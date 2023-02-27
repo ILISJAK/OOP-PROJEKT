@@ -3,6 +3,6 @@
 
 za sutra:
 -exceptioni na svim setterima
--implementirati market bridge metode u town klasi
--static void wait() metoda
--mozda doraditi attack metodu da statovi imaju svrhu
+-implementirati market bridge metode u town klasi (rjeseno)
+-static void wait() metoda (rjeseno)
+-mozda doraditi attack metodu da statovi imaju svrhu 

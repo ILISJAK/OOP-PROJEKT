@@ -14,6 +14,8 @@
 #define WOOD 200
 #define STONE 200
 
+std::vector<Town *> Town::allTowns;
+
 Town::Town() : Town::Town(TEAM, HOUSING, GOLD, RATIONS, WOOD, STONE, new Lord()) {}
 
 Town::Town(char team) : Town::Town(team, HOUSING, GOLD, RATIONS, WOOD, STONE, new Lord()) {}
@@ -46,23 +48,51 @@ Town::~Town()
     // std::cout << "TEST6" << std::endl;
 }
 
-double Town::goldEarned = 0;
-int Town::troopsProduced = 0;
-int Town::structuresConstructed = 0;
-
 // key metode
+
+void Town::addAllTowns(std::vector<Town *> &towns)
+{
+    for (auto town : towns)
+    {
+        allTowns.push_back(town);
+    }
+}
+
 void const Town::info()
 {
     std::cout << "TEAM " << team << " TOWN: " << std::endl;
-    std::cout << "Population: " << villagersTrained << "/" << housing << std::endl;
-    std::cout << "Number of army: " << army.size() << std::endl;
-    std::cout << "Structures built: " << structuresConstructed << std::endl;
-    std::cout << "Gold: " << gold << std::endl;
-    std::cout << "Stone: " << stone << std::endl;
-    std::cout << "Wood: " << wood << std::endl;
-    std::cout << "Rations: " << rations << std::endl;
-    std::cout << "Total gold earned: " << goldEarned << std::endl;
-    std::cout << "Total troops produced: " << troopsProduced << std::endl;
+    std::cout << "- Population: " << population << "/" << housing << ", " << population - activePopulation << " unassigned" << std::endl;
+    std::cout << "- Army size: " << army.size() << std::endl;
+    std::cout << "- Structures built: " << structures.size() << std::endl;
+    std::cout << "- Gold: " << gold << std::endl;
+    std::cout << "- Stone: " << stone << std::endl;
+    std::cout << "- Wood: " << wood << std::endl;
+    std::cout << "- Rations: " << rations << std::endl;
+}
+
+void Town::wait()
+{
+    std::cout << "Some time has passed..." << std::endl;
+    for (auto it = allTowns.begin(); it != allTowns.end();)
+    {
+        if (!(*it)->sufficientRations()) // dereferenciranje iteratora
+        {
+            std::cout << (*it)->getTeam() << " suffers from famine." << std::endl;
+            it = allTowns.erase(it); // samo allTowns.erase(it) = memory leak
+            delete *it;
+            *it = nullptr;
+            continue;
+        }
+        else
+        {
+            for (auto &structure : (*it)->getStructures())
+            {
+                structure->work();
+            }
+            (*it)->setRations((*it)->getRations() - (*it)->getPopulation());
+            ++it;
+        }
+    }
 }
 
 // metode vezane uz strukture i ekonomiju
@@ -85,31 +115,51 @@ void const Town::listStructures()
         }
     }
 }
-void Town::buildHousing() // placeholder exception handle
+void Town::buildHousing(int n) // placeholder exception handle
 {
-    if (structuresConstructed + 1 <= housing && wood >= 20)
+    int counter = 0;
+    for (int i = 0; i < n && getWood() - 10 >= 0; i++)
     {
-        this->wood -= 20;
-        this->housing += 5;
-        structuresConstructed++;
+        setWood(getWood() - 10);
+        housing++;
+        counter++;
+    }
+    if (counter == 0)
+    {
+        std::cout << "Insufficient wood." << std::endl;
+        return;
     }
 }
-void Town::trainVillager()
+void Town::trainVillager(int n)
 {
-    this->rations -= 10;
-    villagersTrained++;
+    int counter = 0;
+    for (int i = 0; i < n && ((getRations() - 10 >= 0) && (population + 1) <= housing); i++)
+    {
+        setRations(getRations() - 10);
+        population++;
+        counter++;
+    }
+    if (counter == 0)
+    {
+        std::cout << "Insufficient housing or rations." << std::endl;
+        return;
+    }
 }
 
 void Town::buildStructure(Structure *structure)
 {
-    if (structure && gold >= structure->getGoldCost() && wood >= structure->getWoodCost() && stone >= structure->getStoneCost())
+    if (structure && gold >= structure->getGoldCost() && wood >= structure->getWoodCost() && stone >= structure->getStoneCost() && activePopulation + 2 <= population)
     {
-        gold -= structure->getGoldCost();
-        wood -= structure->getWoodCost();
-        stone -= structure->getStoneCost();
+        setActivePopulation(getActivePopulation() + 2);
+        setGold(getGold() - structure->getGoldCost());
+        setWood(getWood() - structure->getWoodCost());
+        setStone(getStone() - structure->getStoneCost());
         structures.push_back(structure);
-        std::cout << "A new structure has been built in " << team << " town." << std::endl;
-        structuresConstructed++;
+        std::cout << "A new structure has been built in " << structure->getParentTown()->getTeam() << " town." << std::endl;
+    }
+    else
+    {
+        std::cout << "Unable to build " << structure->getType() << std::endl;
     }
 }
 
@@ -120,9 +170,10 @@ void Town::destroyStructure(Structure *structure)
         auto it = std::find(structures.begin(), structures.end(), structure);
         if (it != structures.end())
         {
-            gold += (*it)->getGoldCost() / 2;
-            wood += (*it)->getWoodCost() / 2;
-            stone += (*it)->getStoneCost() / 2;
+            setActivePopulation(getActivePopulation() - 2);
+            setGold(getGold() + structure->getGoldCost() / 2);
+            setWood(getWood() + structure->getWoodCost() / 2);
+            setStone(getStone() + structure->getStoneCost() / 2);
             structures.erase(it);
             std::cout << "A structure has been destroyed in " << team << " town." << std::endl;
         }
@@ -137,23 +188,46 @@ void Town::buyFromMarket(std::string what, int amount)
             Market *market = dynamic_cast<Market *>(*it);
             if (market)
             {
+                std::cout << "Market: ";
                 if (!market->buy(what, amount)) // ako pronadeni market nema dovoljno resursa, trazimo sljedeci
                 {
                     continue;
                 }
                 else
                 {
-                    market->buy(what, amount);
                     return;
                 }
             }
         }
     }
-    std::cout << "Market not found in town." << std::endl;
+    std::cout << "No suitable market in town." << std::endl;
+}
+void Town::sellToMarket(std::string what, int amount)
+{
+    for (auto it = structures.begin(); it != structures.end(); ++it)
+    {
+        if ((*it)->getType() == "Market")
+        {
+            Market *market = dynamic_cast<Market *>(*it);
+            if (market)
+            {
+                std::cout << "Market: ";
+                if (!market->sell(what, amount)) // ako pronadeni market nema dovoljno resursa, trazimo sljedeci
+                {
+                    continue;
+                }
+                else
+                {
+                    return;
+                }
+            }
+        }
+    }
+    std::cout << "No suitable market in town." << std::endl;
 }
 bool Town::sufficientRations()
 {
-    return (rations >= villagersTrained);
+    return (rations >= population);
 }
 
 // metode vezane uz vojsku
@@ -175,10 +249,15 @@ void const Town::listTroops() // treba smisliti nacin za identifikaciju troopova
 
 void Town::trainTroop(Troop *troop)
 {
-    if (troop && gold >= troop->getCost())
+    if (troop && gold >= troop->getCost() && (activePopulation + 1) <= population)
     {
-        gold -= troop->getCost();
+        setGold(getGold() - troop->getCost());
         army.push_back(troop);
+        setActivePopulation(getActivePopulation() + 1);
+    }
+    else
+    {
+        std::cout << "No villagers to turn into troops." << std::endl;
     }
 }
 
@@ -207,6 +286,8 @@ void Town::raid(Town *town) // eraseat iz vektora pa obrisat
                     allyCasualties++;
                     this->army.erase(this->army.begin());
                     delete attacker;
+                    setActivePopulation(getActivePopulation() - 1);
+                    setPopulation(getPopulation() - 1);
                 }
             }
             else
@@ -261,9 +342,9 @@ void Town::attackLord(Town *town)
                     this->rations += town->rations;
                     this->stone += town->stone;
                     this->wood += town->wood;
-                    this->villagersTrained += town->villagersTrained;
+                    this->population += town->population;
                     std::cout << "All of town " << town->getTeam() << "'s resources have been plundered! " << std::endl;
-                    std::cout << town->villagersTrained << " citizen(s) have assimilated to town " << getTeam() << "." << std::endl;
+                    std::cout << town->population << " citizen(s) have assimilated to town " << getTeam() << "." << std::endl;
                     delete town;
                     std::cout << "Town " << getTeam() << " remaining troops: " << this->army.size() << std::endl;
                     return;
@@ -273,6 +354,8 @@ void Town::attackLord(Town *town)
                     // std::cout << "Troop" << std::endl;
                     this->army.erase(this->army.begin());
                     delete attacker;
+                    setActivePopulation(getActivePopulation() - 1);
+                    setPopulation(getPopulation() - 1);
                 }
             }
             else
@@ -291,6 +374,14 @@ void Town::attackLord(Town *town)
 }
 
 // getteri
+std::vector<Town *> &Town::getAllTowns()
+{
+    return allTowns;
+}
+std::vector<Structure *> Town::getStructures()
+{
+    return structures;
+}
 char Town::getTeam()
 {
     return team;
@@ -314,6 +405,14 @@ int Town::getWood()
 int Town::getStone()
 {
     return stone;
+}
+int Town::getPopulation()
+{
+    return population;
+}
+int Town::getActivePopulation()
+{
+    return activePopulation;
 }
 
 // setteri
@@ -340,4 +439,12 @@ void Town::setWood(int wood)
 void Town::setStone(int stone)
 {
     this->stone = stone;
+}
+void Town::setPopulation(int population)
+{
+    this->population = population;
+}
+void Town::setActivePopulation(int activePopulation)
+{
+    this->activePopulation = activePopulation;
 }

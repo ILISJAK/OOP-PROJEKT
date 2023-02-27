@@ -59,7 +59,7 @@ bool Market::buy(std::string what, int amount)
         }
         parentTown->setGold((parentTown->getGold() - (8 * amount))); // 1 ration = 8 gold
         parentTown->setRations(parentTown->getRations() + amount);
-        std::cout << "Bought " << amount << " " << what << "(s) for " << 8 * amount << " gold.";
+        std::cout << "Bought " << amount << " " << what << "(s) for " << 8 * amount << " gold." << std::endl;
         return true;
     }
     else if (what == "wood" && rations >= amount)
@@ -69,7 +69,7 @@ bool Market::buy(std::string what, int amount)
             return false;
         }
         parentTown->setGold((parentTown->getGold() - (5 * amount))); // 1 wood = 5 gold
-        parentTown->setRations(parentTown->getRations() + amount);
+        parentTown->setWood(parentTown->getWood() + amount);
         std::cout << "Bought " << amount << " " << what << " for " << 5 * amount << " gold." << std::endl;
         return true;
     }
@@ -110,7 +110,7 @@ bool Market::sell(std::string what, int amount)
             return false;
         }
         parentTown->setGold((parentTown->getGold() + (3 * amount))); // 1 wood = 3 gold
-        parentTown->setRations(parentTown->getRations() - amount);
+        parentTown->setWood(parentTown->getWood() - amount);
         std::cout << "Sold " << amount << " " << what << " for " << 3 * amount << " gold." << std::endl;
         return true;
     }

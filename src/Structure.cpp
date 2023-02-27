@@ -7,13 +7,13 @@
 #define WOODCOST 0
 #define STONECOST 0
 
-Structure::Structure(Town *town) : Structure(parentTown, TYPE, GOLDCOST, WOODCOST, STONECOST) {}
+Structure::Structure(Town *town) : Structure(town, TYPE, GOLDCOST, WOODCOST, STONECOST) {}
 Structure::Structure(Town *town, std::string type, int goldCost, int woodCost, int stoneCost)
 {
-    // if (town == nullptr)
-    // {
-    //     std::cout << "No existing town provided for structure constructor." << std::endl;
-    // }
+    if (town == nullptr)
+    {
+        std::cout << "No existing town provided for structure constructor." << std::endl;
+    }
     setParentTown(town);
     setGoldCost(goldCost);
     setWoodCost(woodCost);
