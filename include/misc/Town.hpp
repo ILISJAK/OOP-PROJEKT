@@ -6,6 +6,7 @@
 #include "../structures/Structure.hpp"
 #include "../troops/Troop.hpp"
 #include "../troops/Lord.hpp"
+#include "Exception.hpp"
 
 class Market;    // forward deklaracija
 class Structure; // forward deklaracija

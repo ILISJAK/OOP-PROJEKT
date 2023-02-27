@@ -2,6 +2,7 @@
 #define TROOP
 #include <vector>
 #include <string>
+#include "../misc/Exception.hpp"
 
 class Troop
 {

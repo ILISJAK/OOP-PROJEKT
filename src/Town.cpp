@@ -422,29 +422,50 @@ void Town::setTeam(char team)
 }
 void Town::setGold(double gold)
 {
-    this->gold = gold;
+    if (gold >= 0)
+        this->gold = gold;
+    else
+        throw InputValidation("Gold value can't be negative.");
 }
 void Town::setRations(int rations)
 {
-    this->rations = rations;
+    if (rations >= 0)
+        this->rations = rations;
+    else
+        throw InputValidation("Rations value can't be negative.");
 }
 void Town::setHousing(int housing)
 {
-    this->housing = housing;
+    if (housing >= 0)
+        this->housing = housing;
+    else
+        throw InputValidation("Housing value can't be negative.");
 }
 void Town::setWood(int wood)
 {
-    this->wood = wood;
+    if (wood >= 0)
+        this->wood = wood;
+    else
+        throw InputValidation("Wood value can't be negative.");
 }
 void Town::setStone(int stone)
 {
-    this->stone = stone;
+    if (stone >= 0)
+        this->stone = stone;
+    else
+        throw InputValidation("Stone value can't be negative.");
 }
 void Town::setPopulation(int population)
 {
-    this->population = population;
+    if (population >= 0)
+        this->population = population;
+    else
+        throw InputValidation("Population value can't be negative.");
 }
 void Town::setActivePopulation(int activePopulation)
 {
-    this->activePopulation = activePopulation;
+    if (activePopulation >= 0 && activePopulation <= population)
+        this->activePopulation = activePopulation;
+    else
+        throw InputValidation("Active population value can't be negative or greater than population.");
 }

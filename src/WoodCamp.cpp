@@ -39,4 +39,10 @@ void WoodCamp::info()
 // getteri
 int WoodCamp::getOutput() { return output; }
 // setteri
-void WoodCamp::setOutput(int output) { this->output = output; }
+void WoodCamp::setOutput(int output)
+{
+    if (output >= 0)
+        this->output = output;
+    else
+        throw InputValidation("Output value must be greater than zero.");
+}

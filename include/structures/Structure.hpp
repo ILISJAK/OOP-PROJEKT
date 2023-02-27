@@ -2,6 +2,7 @@
 #define STRUCTURE
 
 #include "../troops/Troop.hpp"
+#include "../misc/Exception.hpp"
 
 class Town; // forward deklaracija
 

@@ -40,4 +40,10 @@ void WheatFarm::info()
 // getteri
 int WheatFarm::getOutput() { return output; }
 // setteri
-void WheatFarm::setOutput(int output) { this->output = output; }
+void WheatFarm::setOutput(int output)
+{
+    if (output >= 0)
+        this->output = output;
+    else
+        throw InputValidation("Output value must be greater than zero.");
+}

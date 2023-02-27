@@ -40,4 +40,10 @@ void StoneQuarry::info()
 // getteri
 int StoneQuarry::getOutput() { return output; }
 // setteri
-void StoneQuarry::setOutput(int output) { this->output = output; }
+void StoneQuarry::setOutput(int output)
+{
+    if (output >= 0)
+        this->output = output;
+    else
+        throw InputValidation("Output value must be greater than zero.");
+}

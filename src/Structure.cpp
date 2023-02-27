@@ -13,6 +13,7 @@ Structure::Structure(Town *town, std::string type, int goldCost, int woodCost, i
     if (town == nullptr)
     {
         std::cout << "No existing town provided for structure constructor." << std::endl;
+        return;
     }
     setParentTown(town);
     setGoldCost(goldCost);
@@ -33,8 +34,32 @@ Town *Structure::getParentTown() { return parentTown; }
 
 // setteri
 
-void Structure::setType(std::string type) { this->type = type; }
-void Structure::setGoldCost(int goldCost) { this->goldCost = goldCost; }
-void Structure::setWoodCost(int woodCost) { this->woodCost = woodCost; }
-void Structure::setStoneCost(int stoneCost) { this->stoneCost = stoneCost; }
-void Structure::setParentTown(Town *parentTown) { this->parentTown = parentTown; }
+void Structure::setType(std::string type)
+{
+    this->type = type;
+}
+void Structure::setGoldCost(int goldCost)
+{
+    if (goldCost >= 0)
+        this->goldCost = goldCost;
+    else
+        throw InputValidation("Gold cost can't be negative.");
+}
+void Structure::setWoodCost(int woodCost)
+{
+    if (woodCost >= 0)
+        this->woodCost = woodCost;
+    else
+        throw InputValidation("Wood cost can't be negative.");
+}
+void Structure::setStoneCost(int stoneCost)
+{
+    if (stoneCost >= 0)
+        this->stoneCost = stoneCost;
+    else
+        throw InputValidation("Stone cost can't be negative.");
+}
+void Structure::setParentTown(Town *parentTown)
+{
+        this->parentTown = parentTown;
+}

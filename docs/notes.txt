@@ -2,7 +2,7 @@
 - mora imati 
 
 za sutra:
--exceptioni na svim setterima
+-exceptioni na svim setterima (rjeseno)
 -implementirati market bridge metode u town klasi (rjeseno)
 -static void wait() metoda (rjeseno)
 -mozda doraditi attack metodu da statovi imaju svrhu 
