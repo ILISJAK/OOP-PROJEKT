@@ -15,13 +15,13 @@ Troop::Troop(std::string identifier, double maxHealth, double damage, double def
 {
     this->troopIdentifier = identifier;
     this->maxHealth = maxHealth;
-    setHealth(health);
-    setDamage(damage);
-    setDefense(defense);
-    setAgility(agility);
-    setCost(cost);
-    setMounted(mounted);
-    setRanged(ranged);
+    this->health = maxHealth;
+    this->damage = damage;
+    this->defense = defense;
+    this->agility = agility;
+    this->cost = cost;
+    this->mounted = mounted;
+    this->ranged = ranged;
 }
 Troop::~Troop() {}
 
@@ -33,7 +33,6 @@ void Troop::attack(Troop *target)
         std::cout << "target is nullptr" << std::endl;
         return;
     }
-
     target->health -= this->damage;
     this->health -= target->damage;
 }
@@ -85,38 +84,23 @@ bool Troop::getRanged()
 // setteri
 void Troop::setHealth(double health)
 {
-    if (health >= 0)
-        this->health = health;
-    else
-        health = 0;
+    this->health = health;
 }
 void Troop::setDamage(double damage)
 {
-    if (damage > 0)
-        this->damage = damage;
-    else
-        throw InputValidation("Damage value must be greater than zero.");
+    this->damage = damage;
 }
 void Troop::setDefense(double defense)
 {
-    if (defense > 0)
-        this->defense = defense;
-    else
-        throw InputValidation("Defense value must be greater than zero.");
+    this->defense = defense;
 }
-void Troop::setAgility(double agility)
+void Troop::setAgility(double defense)
 {
-    if (agility > 0)
-        this->agility = agility;
-    else
-        throw InputValidation("Agility value must be greater than zero.");
+    this->agility = agility;
 }
 void Troop::setCost(int cost)
 {
-    if (cost >= 0)
-        this->cost = cost;
-    else
-        throw InputValidation("Cost value cant be negative.");
+    this->cost = cost;
 }
 bool Troop::setMounted(bool mounted)
 {

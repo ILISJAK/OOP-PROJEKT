@@ -139,31 +139,7 @@ int Market::getMaxWood() { return maxWood; }
 int Market::getMaxStone() { return maxStone; }
 
 // setteri
-double Market::setMaxGold(double maxGold)
-{
-    if (maxGold >= 0)
-        this->maxGold = maxGold;
-    else
-        throw InputValidation("maxGold value must be greater than zero.");
-}
-int Market::setMaxRations(int maxRations)
-{
-    if (maxRations >= 0)
-        this->maxRations = maxRations;
-    else
-        throw InputValidation("maxRations value must be greater than zero.");
-}
-int Market::setMaxWood(int maxWood)
-{
-    if (maxWood >= 0)
-        this->maxWood = maxWood;
-    else
-        throw InputValidation("maxWood value must be greater than zero.");
-}
-int Market::setMaxStone(int maxStone)
-{
-    if (maxStone >= 0)
-        this->maxStone = maxStone;
-    else
-        throw InputValidation("maxStone value must be greater than zero.");
-}
+double Market::setMaxGold(double maxGold) { this->maxGold = maxGold; }
+int Market::setMaxRations(int maxRations) { this->maxRations = maxRations; }
+int Market::setMaxWood(int maxWood) { this->maxWood = maxWood; }
+int Market::setMaxStone(int maxStone) { this->maxStone = maxStone; }
