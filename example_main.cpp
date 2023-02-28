@@ -55,24 +55,26 @@ int main()
         town1->trainTroop(new Pikeman());
         town1->listTroops();
 
-        // std::cout <<std::endl;
-        // town2->listTroops();
+        std::cout << std::endl;
+        town2->listTroops();
 
-        // town1->raid(town2);
-        // std::cout <<std::endl;
-        // town1->listTroops();
-        // std::cout <<std::endl;
-        // town1->attackLord(town2);
+        town1->raid(town2);
+        std::cout << std::endl;
+        town1->listTroops();
+        std::cout << std::endl;
+        town1->attackLord(town2);
 
-        // std::cout << std::endl;
-        // town1->buildStructure(new Market(town1));
-        // town1->buildStructure(new StoneQuarry(town1));
-        // town1->buildStructure(new WoodCamp(town1));
-        // town1->buildStructure(new WheatFarm(town1));
-        // town1->listStructures();
-        // town1->info();
-        // town1->buyFromMarket("wood", 50);
-        // town1->info();
+        std::cout << std::endl;
+        town1->buildStructure(new Market(town1));
+        town1->buildStructure(new StoneQuarry(town1));
+        town1->buildStructure(new WoodCamp(town1));
+        town1->buildStructure(new WheatFarm(town1));
+        town1->listStructures();
+        std::cout << std::endl;
+        town1->info();
+        town1->buyFromMarket("wood", 50);
+        std::cout << std::endl;
+        town1->info();
     }
     catch (InputValidation &e)
     {

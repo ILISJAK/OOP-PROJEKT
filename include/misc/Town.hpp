@@ -19,6 +19,9 @@ public:
     Town(char team, int housing, double gold, int rations, int wood, int stone, Troop *lord);
     ~Town();
 
+    bool operator>(const Town &other) const;
+    bool operator==(const Town &town) const;
+
     // key metode
     static void addAllTowns(std::vector<Town *> &towns);
     static void wait();
